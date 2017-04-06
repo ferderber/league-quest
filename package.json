@@ -1,0 +1,25 @@
+{
+  "private": true,
+  "name": "leaguequest",
+  "description": "Leaguequest",
+  "version": "0.0.0",
+  "repository": {},
+  "scripts": {
+    "test": "echo lol",
+    "lint": "vbuild --eslint",
+    "dev": "vbuild -d",
+    "build": "vbuild"
+  },
+  "devDependencies": {
+    "offline-plugin": "^4.6.1",
+    "vbuild": "^6.0.0"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "vue-material": "^0.7.1",
+    "vue-resource": "^1.2.1",
+    "vue-router": "^2.3.0",
+    "vuex": "^2.2.1",
+    "vuex-router-sync": "^4.1.2"
+  }
+}
