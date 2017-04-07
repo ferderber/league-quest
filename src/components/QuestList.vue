@@ -23,7 +23,7 @@ export default {
         return { quests: new Array(0), questOffers: new Array(0), selectedQuest: -1 };
     },
     components: {
-        'quest': () => import('./Quest.vue'),
+        'quest': () => import('./Quest.vue')
     },
     methods: {
         select(el) {

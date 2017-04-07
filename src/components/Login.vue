@@ -30,28 +30,7 @@ export default {
         login(e) {
             e.preventDefault();
             var form = new FormData(this.$el.querySelector('#loginForm'));
-            this.$store.dispatch('login', { username: form.get('username'), password: form.get('password') });
-            //     .then(res => {
-            //     if (res.status !== 200)
-            //         throw res;
-            //     else
-            //         return res.json();
-            // })
-            //     .then((data) => {
-            //         if (data.token) {
-            //             this.$router.push('quests');
-            //         }
-            //     })
-            //     .catch((err) => {
-            //         if (err.status === 401) {
-            //             this.$refs.errorMsg.innerHTML = "Invalid username or password";
-            //         } else if (err.status === 404) {
-            //             this.$refs.errorMsg.innerHTML = "Something happened";
-            //         } else {
-            //             this.$refs.errorMsg.innerHTML = err.statusText;
-            //         }
-            //         this.$refs.snackbar.open();
-            //     });
+            this.$store.dispatch('login', { username: form.get('username'), password: form.get('password') }).then(() => router.push('quests'));
             return false;
         }
     }

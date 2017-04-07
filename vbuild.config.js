@@ -1,5 +1,5 @@
-const path = require('path')
-const OfflinePlugin = require('offline-plugin')
+const path = require('path');
+const OfflinePlugin = require('offline-plugin');
 
 // this will copy ./static/** to ./dist/**
 module.exports = options => ({
@@ -8,18 +8,18 @@ module.exports = options => ({
     // add more postcss plugins here
     // by default we have autoprefixer pre added
   ],
-  webpack(config) {
-    config.resolve.modules.push(path.resolve('src'))
-    
+  webpack (config) {
+    config.resolve.modules.push(path.resolve('src'));
+
     // inject offline-plugin in production build
     if (!options.dev) {
       config.plugins.push(new OfflinePlugin({
         ServiceWorker: {
           events: true
         }
-      }))
+      }));
     }
 
-    return config
+    return config;
   }
-})
+});

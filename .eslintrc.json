@@ -1,0 +1,18 @@
+{
+    "root": true,
+    "parser": "babel-eslint",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "plugins": [
+        "vue"
+    ],
+    "extends": "vue",
+    "rules": {
+        "semi": [
+            2,
+            "always"
+        ],
+        "object-curly-newline": "off"
+    }
+}

@@ -12,6 +12,11 @@ It tracks users as they progress through *quests* and allows them to compete wit
 - Detailed per user stats page
 - Detailed overall stats page
 
+### Requirements
+- `Node > 7`
+- yarn/npm
+- vbuild, `yarn global add vbuild`
+
 ### Folder structure
 - `src/`: App files
   - `components/`: Components directory
@@ -23,6 +28,8 @@ It tracks users as they progress through *quests* and allows them to compete wit
 - `.gitignore`: Ignore git files
 
 ### Development
+- `yarn`: Download dependencies
 - `yarn dev`: Run in development mode
 - `yarn build`: Build in production mode
+- `yarn test`: Run tests
 - `yarn lint`: Run eslint
