@@ -2,6 +2,7 @@ image: node:7.8.0
 
 stages:
   - test
+  - build
 
 before_script:
   - apt-get update -y
