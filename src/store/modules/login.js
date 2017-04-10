@@ -6,16 +6,20 @@ const state = {
 };
 
 const getters = {
-  isLoggedIn: state => {
-    return state.isLoggedIn;
-  }
+  isLoggedIn: state => state.isLoggedIn
 };
 const actions = {
-  login ({ commit, state }, credentials) {
+  login ({ dispatch, commit, state }, credentials) {
     commit(types.LOGIN);
-    return auth.login(credentials)
+    return new Promise((resolve, reject) =>
+      auth.login(credentials)
         .then(() => commit(types.LOGIN_SUCCESS))
-        .catch((err) => commit(types.LOGIN_FAILURE, err));
+        .catch((err) => {
+          commit(types.LOGIN_FAILURE, err);
+          dispatch('showNotification');
+          reject();
+        })
+    );
   },
   logout ({ commit }) {
     window.localStorage.removeItem('token');
@@ -33,8 +37,8 @@ const mutations = {
   [types.LOGOUT] (state) {
     state.isLoggedIn = false;
   },
-  [types.LOGIN_FAILURE] (state) {
-
+  [types.LOGIN_FAILURE] (state, err) {
+    state.errorStatus = err.statusText;
   }
 };
 export default {

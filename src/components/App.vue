@@ -10,6 +10,8 @@
                    to="/login"
                    style="float: right">Login</router-link>
     </md-whiteframe>
+    <notification>
+    </notification>
     <md-whiteframe class="page"
                    md-elevation="4"
                    md-tag="div">
@@ -23,6 +25,9 @@ export default {
   name: 'app',
   computed: {
     ...mapGetters(['isLoggedIn'])
+  },
+  components: {
+    'notification': () => import('./Notification.vue')
   }
 }
 </script>
@@ -42,6 +47,7 @@ body,
   margin: auto;
   height: 90%;
   padding: 25px;
+  padding-bottom: 5px;
   overflow: auto;
   overflow-x: hidden;
 }

@@ -2,7 +2,7 @@ import config from '../../config';
 
 export default {
   acceptQuest: (quest) =>
-    fetch(config.hostname + '/quests/' + quest + '/accept', {
+    fetch((config ? config.hostname : '/api') + '/quests/' + quest + '/accept', {
       method: 'POST'
     }).then((res) => {
       if (res.status !== 200) {
@@ -12,7 +12,7 @@ export default {
     }).then((res) => res.json()),
 
   getQuests: () =>
-    fetch(config.hostname + '/quests', {
+    fetch((config ? config.hostname : '/api') + '/quests', {
       method: 'GET'
     }).then((res) => {
       if (res.status !== 200) {

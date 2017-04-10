@@ -16,11 +16,6 @@
             <md-button class="md-primary"
                        type="submit">Login</md-button>
         </form>
-        <md-snackbar ref="snackbar"
-                     md-position="top right"
-                     :md-duration="4000">
-            <span ref="errorMsg"></span>
-        </md-snackbar>
     </md-whiteframe>
 </template>
 <script type="text/javascript">
@@ -30,7 +25,13 @@ export default {
         login(e) {
             e.preventDefault();
             var form = new FormData(this.$el.querySelector('#loginForm'));
-            this.$store.dispatch('login', { username: form.get('username'), password: form.get('password') }).then(() => router.push('quests'));
+            this.$store.dispatch('login',
+                {
+                    username: form.get('username'),
+                    password: form.get('password')
+                })
+                .then(() => this.$router.push('quests'))
+                .catch(() => { });
             return false;
         }
     }

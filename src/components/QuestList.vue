@@ -58,7 +58,7 @@ export default {
         }
     },
     created() {
-        this.getQuests();
+        this.$store.dispatch('getQuests');
     }
 }
 

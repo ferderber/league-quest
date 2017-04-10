@@ -10,6 +10,7 @@ module.exports = options => ({
   ],
   webpack (config) {
     config.resolve.modules.push(path.resolve('src'));
+    config.resolve.modules.push(path.resolve('config.js'));
 
     // inject offline-plugin in production build
     if (!options.dev) {

@@ -2,7 +2,7 @@ import config from '../../config';
 
 export default {
   login: (credentials) =>
-    fetch(config.hostname + '/user/authenticate', {
+    fetch((config ? config.hostname : '/api') + '/user/authenticate', {
       method: 'POST',
       body: JSON.stringify(credentials)
     }).then(res => {

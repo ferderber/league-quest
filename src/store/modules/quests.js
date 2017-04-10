@@ -18,18 +18,20 @@ const getters = {
     return state.completedQuests;
   }
 };
+
 const actions = {
-  acceptQuest ({ commit, state }, quest) {
-    return quests.acceptQuest(quest)
-        .then((quest) => commit(types.ACCEPT_QUEST, quest))
-        .catch((err) => commit(types.API_ERROR, err));
+  async acceptQuest ({ commit, state }, quest) {
+    return await quests.acceptQuest(quest)
+      .then((quest) => commit(types.ACCEPT_QUEST, quest))
+      .catch((err) => commit(types.API_ERROR, err));
   },
-  getQuests ({ commit, state }) {
-    return quests.getQuests()
-        .then((quests) => commit(types.UPDATE_QUESTS, quests))
-        .catch((err) => commit(types.API_ERROR, err));
+  async getQuests ({ commit, state }) {
+    return await quests.getQuests()
+      .then((quests) => commit(types.UPDATE_QUESTS, quests))
+      .catch((err) => commit(types.API_ERROR, err));
   }
 };
+
 const mutations = {
   [types.ACCEPT_QUEST] (state, quest) {
     state.pending = true;
