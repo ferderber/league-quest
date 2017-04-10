@@ -21,12 +21,12 @@ test('Valid login', async t => {
   await testAction(loginStore.actions.login, { username: 'user', password: 'password' }, {}, [
         { type: types.LOGIN },
         { type: types.LOGIN_SUCCESS }
-  ], t);
+  ], null, t);
 });
 test('Invalid login', async t => {
   await testAction(loginStore.actions.login, { username: 'invalid', password: 'credentials' }, {}, [
         { type: types.LOGIN },
         { type: types.LOGIN_FAILURE, payload: { status: 401, statusText: 'Unauthorized' }}
-  ], t);
+  ], ['showNotification'], t);
 });
 

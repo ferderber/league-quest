@@ -12,14 +12,14 @@ const actions = {
   login ({ dispatch, commit, state }, credentials) {
     commit(types.LOGIN);
     return new Promise((resolve, reject) =>
-      auth.login(credentials)
+      resolve(auth.login(credentials)
         .then(() => commit(types.LOGIN_SUCCESS))
         .catch((err) => {
           commit(types.LOGIN_FAILURE, err);
           dispatch('showNotification');
-          reject();
+          return reject();
         })
-    );
+    ));
   },
   logout ({ commit }) {
     window.localStorage.removeItem('token');

@@ -22,11 +22,11 @@ test.before(() => {
 test('Valid getQuests', async t => {
   await testAction(questStore.actions.getQuests, null, {}, [
         { type: types.UPDATE_QUESTS, payload: quests }
-  ], t);
+  ], null, t);
 });
 test('Valid acceptQuest', async t => {
   await testAction(questStore.actions.acceptQuest, 1, {}, [
         { type: types.ACCEPT_QUEST, payload: quests[0] }
-  ], t);
+  ], null, t);
 });
 
