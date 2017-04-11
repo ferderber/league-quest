@@ -17,7 +17,7 @@ const actions = {
 };
 
 const mutations = {
-  [types.LOGIN_FAILURE] (state, err) {
+  [types.SHOW_NOTIFICATION] (state, err) {
     state.message = err.statusText;
   },
   [types.HIDE_NOTIFICATION] (state, err) {

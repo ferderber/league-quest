@@ -24,6 +24,6 @@ export default {
             } else 
                 this.$refs.snackbar.close();
         }
-    },
+    }
 }
 </script>

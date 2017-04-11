@@ -6,7 +6,7 @@ stages:
 
 before_script:
   - apt-get update -y
-  - npm install
+  - yarn
 
 cache:
   paths:

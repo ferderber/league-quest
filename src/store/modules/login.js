@@ -2,11 +2,13 @@ import * as types from '../mutation-types';
 import auth from '../../api/auth';
 
 const state = {
-  isLoggedIn: false
+  isLoggedIn: false,
+  pending: true
 };
 
 const getters = {
-  isLoggedIn: state => state.isLoggedIn
+  isLoggedIn: state => state.isLoggedIn,
+  pending: state => state.pending
 };
 const actions = {
   login ({ dispatch, commit, state }, credentials) {
@@ -15,14 +17,15 @@ const actions = {
       resolve(auth.login(credentials)
         .then(() => commit(types.LOGIN_SUCCESS))
         .catch((err) => {
-          commit(types.LOGIN_FAILURE, err);
+          commit(types.LOGIN_FAILURE);
+          commit(types.SHOW_NOTIFICATION, err);
           dispatch('showNotification');
           return reject();
         })
     ));
   },
   logout ({ commit }) {
-    window.localStorage.removeItem('token');
+    // window.localStorage.removeItem('token');
     commit(types.LOGOUT);
   }
 };
@@ -33,12 +36,15 @@ const mutations = {
   },
   [types.LOGIN_SUCCESS] (state) {
     state.isLoggedIn = true;
+    state.pending = false;
   },
   [types.LOGOUT] (state) {
     state.isLoggedIn = false;
+    state.pending = false;
   },
-  [types.LOGIN_FAILURE] (state, err) {
-    state.errorStatus = err.statusText;
+  [types.LOGIN_FAILURE] (state) {
+    state.isLoggedIn = false;
+    state.pending = false;
   }
 };
 export default {

@@ -8,7 +8,7 @@
     "url": "https://mferd@gitlab.com/mferd/leaguequest.git"
   },
   "scripts": {
-    "test": "ava",
+    "test": "nyc ava",
     "lint": "vbuild --eslint",
     "dev": "vbuild -d",
     "build": "vbuild"
@@ -35,6 +35,7 @@
     "eslint-plugin-vue": "^2.0.1",
     "isomorphic-fetch": "^2.2.1",
     "nock": "^9.0.11",
+    "nyc": "^10.2.0",
     "offline-plugin": "^4.6.1",
     "vbuild": "^6.24.14"
   },
