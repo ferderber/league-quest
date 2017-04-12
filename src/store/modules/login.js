@@ -13,19 +13,16 @@ const getters = {
 const actions = {
   login ({ dispatch, commit, state }, credentials) {
     commit(types.LOGIN);
-    return new Promise((resolve, reject) =>
-      resolve(auth.login(credentials)
+    auth.login(credentials)
         .then(() => commit(types.LOGIN_SUCCESS))
         .catch((err) => {
           commit(types.LOGIN_FAILURE);
           commit(types.SHOW_NOTIFICATION, err);
           dispatch('showNotification');
-          return reject();
-        })
-    ));
+          return;
+        });
   },
   logout ({ commit }) {
-    // window.localStorage.removeItem('token');
     commit(types.LOGOUT);
   }
 };

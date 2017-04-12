@@ -2,20 +2,18 @@ import * as types from '../mutation-types';
 import quests from '../../api/quests';
 
 const state = {
-  completedQuests: [],
-  activeQuests: [],
-  questOffers: []
+  quests: []
 };
 
 const getters = {
   activeQuests: state => {
-    return state.activeQuests;
+    return state.quests.filter((q) => q.active);
   },
   questOffers: state => {
-    return state.questOffers;
+    return state.quests.filter((q) => q.progress === undefined);
   },
   completedQuests: state => {
-    return state.completedQuests;
+    return state.quests.filter((q) => !q.active);
   }
 };
 
@@ -23,24 +21,27 @@ const actions = {
   async acceptQuest ({ commit, state }, quest) {
     return await quests.acceptQuest(quest)
       .then((quest) => commit(types.ACCEPT_QUEST, quest))
-      .catch((err) => commit(types.API_ERROR, err));
+      .catch((err) => {
+        commit(types.API_ERROR, err);
+        return;
+      });
   },
   async getQuests ({ commit, state }) {
-    return await quests.getQuests()
+    return await Promise.resolve(quests.getQuests()
       .then((quests) => commit(types.UPDATE_QUESTS, quests))
-      .catch((err) => commit(types.API_ERROR, err));
+      .catch((err) => {
+        commit(types.API_ERROR, err);
+        return;
+      }));
   }
 };
 
 const mutations = {
   [types.ACCEPT_QUEST] (state, quest) {
-    state.pending = true;
-    state.activeQuests.push(quest);
+    state.quests.push(quest);
   },
-  [types.UPDATE_QUESTS] (state, quest) {
-    state.isLoggedIn = true;
-    state.activeQuests = quests;
-    // Filter quests into arrays
+  [types.UPDATE_QUESTS] (state, quests) {
+    state.quests = quests;
   }
 };
 export default {
