@@ -9,10 +9,8 @@ const getters = {
   message: state => state.message
 };
 const actions = {
-  showNotification ({ dispatch, commit, state }) {
-    setTimeout(() => {
-      commit(types.HIDE_NOTIFICATION);
-    }, 2500);
+  hideNotification ({ commit }) {
+    commit(types.HIDE_NOTIFICATION);
   }
 };
 
@@ -22,6 +20,9 @@ const mutations = {
   },
   [types.HIDE_NOTIFICATION] (state, err) {
     state.message = null;
+  },
+  [types.API_ERROR] (state, err) {
+    state.message = err.statusText;
   }
 };
 export default {

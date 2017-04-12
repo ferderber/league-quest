@@ -1,12 +1,20 @@
 <template>
     <md-whiteframe md-elevation="4"
-                   id="login">
-        <form id="loginForm"
+                   id="signup">
+        <form id="signupForm"
               method="POST"
-              @submit="login">
+              @submit="signup">
             <md-input-container>
-                <label>Username</label>
+                <label>LQ Username</label>
                 <md-input name="username"></md-input>
+            </md-input-container>
+            <md-input-container>
+                <label>League Username</label>
+                <md-input name="leaguename"></md-input>
+            </md-input-container>
+            <md-input-container>
+                <label>Email</label>
+                <md-input name="email"></md-input>
             </md-input-container>
             <md-input-container>
                 <label>Password</label>
@@ -14,20 +22,22 @@
                           type="password"></md-input>
             </md-input-container>
             <md-button class="md-primary"
-                       type="submit">Login</md-button>
+                       type="submit">Sign up</md-button>
         </form>
     </md-whiteframe>
 </template>
 <script type="text/javascript">
 export default {
-    name: 'login',
+    name: 'signup',
     methods: {
-        login(e) {
+        signup(e) {
             e.preventDefault();
-            var form = new FormData(this.$el.querySelector('#loginForm'));
-            this.$store.dispatch('login',
+            var form = new FormData(this.$el.querySelector('#signupForm'));
+            this.$store.dispatch('signup',
                 {
                     username: form.get('username'),
+                    leagueName: form.get('leaguename'),
+                    email: form.get('email'),
                     password: form.get('password')
                 });
             return false;
@@ -36,13 +46,13 @@ export default {
 }
 </script>
 <style>
-#login {
+#signup {
     min-width: 100px;
-    max-width: 500px;
+    max-width: 700px;
     margin: auto;
     padding: 40px;
     border-radius: 4px;
-    height: 300px;
+    height: 450px;
 }
 
 .md-primary {

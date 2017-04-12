@@ -6,13 +6,12 @@ import config from '../../config';
 import { testAction } from './_helpers';
 require('isomorphic-fetch');
 
+const mockRoutes = nock(config.hostname);
 const actions = store.actions;
 const mutations = store.mutations;
 const getters = store.getters;
 const state = store.state;
 let testState = state;
-const mockRoutes = nock(config.hostname);
-
 const quests = [{ id: 1, active: true, champion: '', goal: 300, progress: 0 }];
 
 // action tests

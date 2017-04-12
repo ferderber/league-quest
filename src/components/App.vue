@@ -9,6 +9,10 @@
       <router-link v-if="!isLoggedIn"
                    to="/login"
                    style="float: right">Login</router-link>
+      <router-link v-if="!isLoggedIn"
+                   to="/signup"
+                   style="float: right">Sign up</router-link>
+      <a v-if="isLoggedIn" href="#" @click="logout" style="float: right">Logout</a>
     </md-whiteframe>
     <notification>
     </notification>
@@ -25,6 +29,11 @@ export default {
   name: 'app',
   computed: {
     ...mapGetters(['isLoggedIn'])
+  },
+  methods: {
+    logout() {
+      this.$store.dispatch('logout');
+    }
   },
   components: {
     'notification': () => import('./Notification.vue')

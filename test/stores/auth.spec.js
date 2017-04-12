@@ -1,17 +1,17 @@
 import test from 'ava';
 import * as types from '../../src/store/mutation-types';
-import loginStore from '../../src/store/modules/login';
+import authStore from '../../src/store/modules/auth';
 import nock from 'nock';
 import config from '../../config';
 import { testAction } from './_helpers';
 require('isomorphic-fetch');
 
 const mockRoutes = nock(config.hostname);
-const mutations = loginStore.mutations;
-const actions = loginStore.actions;
-const state = loginStore.state;
-const getters = loginStore.getters;
-let testState = loginStore.state;
+const mutations = authStore.mutations;
+const actions = authStore.actions;
+const state = authStore.state;
+const getters = authStore.getters;
+let testState = authStore.state;
 
 // action tests
 test('Valid login', async t => {
@@ -27,7 +27,21 @@ test('Invalid login', async t => {
         { type: types.LOGIN },
         { type: types.LOGIN_FAILURE },
         { type: types.SHOW_NOTIFICATION, payload: { status: 401, statusText: 'Unauthorized' }}
-  ], ['showNotification'], t);
+  ], null, t);
+});
+const mockUser = { username: 'testUser', password: 'password', leagueName: 'league', email: 'test@gmail.com' };
+test('Valid Sign up', async t => {
+  mockRoutes.post('/user', mockUser).reply(200, { user: mockUser });
+  await testAction(actions.signup, mockUser, {}, [
+    { type: types.LOGIN_SUCCESS, payload: mockUser }
+  ], null, t);
+});
+test('invalid Sign up', async t => {
+  mockRoutes.post('/user').reply(400, { message: 'Invalid username' });
+  await testAction(actions.signup, null, {}, [
+    { type: types.SIGNUP_FAILURE },
+    { type: types.SHOW_NOTIFICATION, payload: { status: 400, statusText: 'Bad Request' }}
+  ], null, t);
 });
 
 test('Logout', async t => {

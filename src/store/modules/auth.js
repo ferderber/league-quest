@@ -13,17 +13,23 @@ const getters = {
 const actions = {
   login ({ dispatch, commit, state }, credentials) {
     commit(types.LOGIN);
-    auth.login(credentials)
-        .then(() => commit(types.LOGIN_SUCCESS))
-        .catch((err) => {
-          commit(types.LOGIN_FAILURE);
-          commit(types.SHOW_NOTIFICATION, err);
-          dispatch('showNotification');
-          return;
-        });
+    return auth.login(credentials)
+          .then(() => commit(types.LOGIN_SUCCESS))
+          .catch((err) => {
+            commit(types.LOGIN_FAILURE);
+            commit(types.SHOW_NOTIFICATION, err);
+          });
   },
-  logout ({ commit }) {
+  logout ({ commit, state }) {
     commit(types.LOGOUT);
+  },
+  signup ({ dispatch, commit, state }, credentials) {
+    return auth.signup(credentials)
+        .then((user) => commit(types.LOGIN_SUCCESS, user))
+        .catch((err) => {
+          commit(types.SIGNUP_FAILURE);
+          commit(types.SHOW_NOTIFICATION, err);
+        });
   }
 };
 
@@ -42,6 +48,9 @@ const mutations = {
   [types.LOGIN_FAILURE] (state) {
     state.isLoggedIn = false;
     state.pending = false;
+  },
+  [types.SIGNUP_FAILURE] (state) {
+
   }
 };
 export default {

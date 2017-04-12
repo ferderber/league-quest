@@ -1,6 +1,6 @@
 <template>
     <div id="notification">
-        <md-snackbar ref="snackbar"
+        <md-snackbar ref="snackbar" md-duration="2500" @close="close"
                      md-position="bottom right">
             <span id="errorMsg" ref="errorMsg">{{message}}</span>
         </md-snackbar>
@@ -15,7 +15,9 @@ export default {
         ...mapGetters(['isError', 'message'])
     },
     methods: {
-
+        close() {
+            this.$store.dispatch('hideNotification');
+        }
     },
     watch: {
         'message': function() {
