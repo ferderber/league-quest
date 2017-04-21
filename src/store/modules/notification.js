@@ -16,7 +16,7 @@ const actions = {
 
 const mutations = {
   [types.SHOW_NOTIFICATION] (state, err) {
-    state.message = err.statusText;
+    state.message = err.message || err.statusText;
   },
   [types.HIDE_NOTIFICATION] (state, err) {
     state.message = null;

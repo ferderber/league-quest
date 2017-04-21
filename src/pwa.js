@@ -10,6 +10,6 @@ runtime.install({
   // Reload to get the new version:
   onUpdated () {
     console.log('updated');
-    window.location.reload();
+    // window.location.reload();
   }
 });

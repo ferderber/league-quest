@@ -3,39 +3,77 @@ import * as types from '../../src/store/mutation-types';
 import store from '../../src/store/modules/quests';
 import nock from 'nock';
 import config from '../../config';
-import { testAction } from './_helpers';
+import { testAction, storageMock } from './_helpers';
 require('isomorphic-fetch');
 
-const mockRoutes = nock(config.hostname);
 const actions = store.actions;
 const mutations = store.mutations;
 const getters = store.getters;
 const state = store.state;
 let testState = state;
-const quests = [{ id: 1, active: true, champion: '', goal: 300, progress: 0 }];
+global.localStorage = storageMock();
+process.env.API_URL = config.hostname;
+const mockRoutes = nock(config.hostname);
+// const quests = [{ id: 1, active: true, champion: '', goal: 300, progress: 0 }];
+const quests = [{
+  'id': 1,
+  'title': 'Riven Mastery',
+  'championId': 92,
+  'championKey': 'Riven',
+  'championName': 'Riven',
+  'type': 0,
+  'points': 20,
+  'complete': false,
+  'objectives': [
+    {
+      'progress': 0,
+      'goal': 100,
+      'goalType': 0,
+      'title': 'Kills'
+    }
+  ]
+},
+{
+  'id': 2,
+  'title': "Cho'Gath Mastery",
+  'championId': 31,
+  'championKey': 'Chogath',
+  'championName': "Cho'Gath",
+  'type': 0,
+  'points': 20,
+  'complete': false,
+  'objectives': [
+    {
+      'progress': 0,
+      'goal': 100,
+      'goalType': 0,
+      'title': 'Kills'
+    }
+  ]
+}];
 
 // action tests
 test('Valid getQuests', async t => {
-  mockRoutes.get('/quests').reply(200, quests);
+  mockRoutes.get('/quest').reply(200, quests);
   await testAction(actions.getQuests, null, {}, [
         { type: types.UPDATE_QUESTS, payload: quests }
   ], null, t);
 });
 test('Valid acceptQuest', async t => {
-  mockRoutes.post('/quests/1/accept').reply(200, quests[0]);
+  mockRoutes.post('/quest/1/accept').reply(200, quests[0]);
   await testAction(actions.acceptQuest, quests[0].id, {}, [
         { type: types.ACCEPT_QUEST, payload: quests[0] }
   ], null, t);
 });
 
 test('Offline getQuests', async (t) => {
-  mockRoutes.get('/quests').reply(401);
+  mockRoutes.get('/quest').reply(401);
   await testAction(actions.getQuests, null, {}, [
         { type: types.API_ERROR, payload: { status: 401, statusText: 'Unauthorized' }}
   ], null, t);
 });
 test('Offline acceptQuests', async (t) => {
-  mockRoutes.post('/quests/1/accept').reply(401);
+  mockRoutes.post('/quest/1/accept').reply(401);
   await testAction(actions.acceptQuest, quests[0].id, {}, [
         { type: types.API_ERROR, payload: { status: 401, statusText: 'Unauthorized' }}
   ], null, t);

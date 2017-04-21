@@ -1,24 +1,17 @@
 <template>
   <div id="app">
-    <md-whiteframe md-elevation="5"
-                   md-tag="nav">
+    <md-whiteframe md-elevation="5" md-tag="nav">
       <span class="shortTitle">LQ</span>
       <span class="title">LeagueQuest</span>
       <span>|</span>
       <router-link to="/quests">Quests</router-link>
-      <router-link v-if="!isLoggedIn"
-                   to="/login"
-                   style="float: right">Login</router-link>
-      <router-link v-if="!isLoggedIn"
-                   to="/signup"
-                   style="float: right">Sign up</router-link>
+      <router-link v-if="!isLoggedIn" to="/login" style="float: right">Login</router-link>
+      <router-link v-if="!isLoggedIn" to="/signup" style="float: right">Sign up</router-link>
       <a v-if="isLoggedIn" href="#" @click="logout" style="float: right">Logout</a>
     </md-whiteframe>
     <notification>
     </notification>
-    <md-whiteframe class="page"
-                   md-elevation="4"
-                   md-tag="div">
+    <md-whiteframe class="page" md-elevation="4" md-tag="div">
       <router-view></router-view>
     </md-whiteframe>
   </div>

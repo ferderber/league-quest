@@ -1,9 +1,6 @@
 <template>
-    <md-whiteframe md-elevation="4"
-                   id="signup">
-        <form id="signupForm"
-              method="POST"
-              @submit="signup">
+    <md-whiteframe md-elevation="4" id="signup">
+        <form id="signupForm" method="POST" @submit="signup">
             <md-input-container>
                 <label>LQ Username</label>
                 <md-input name="username"></md-input>
@@ -18,11 +15,9 @@
             </md-input-container>
             <md-input-container>
                 <label>Password</label>
-                <md-input name="password"
-                          type="password"></md-input>
+                <md-input name="password" type="password"></md-input>
             </md-input-container>
-            <md-button class="md-primary"
-                       type="submit">Sign up</md-button>
+            <md-button class="md-primary" type="submit">Sign up</md-button>
         </form>
     </md-whiteframe>
 </template>
@@ -36,7 +31,7 @@ export default {
             this.$store.dispatch('signup',
                 {
                     username: form.get('username'),
-                    leagueName: form.get('leaguename'),
+                    leaguename: form.get('leaguename'),
                     email: form.get('email'),
                     password: form.get('password')
                 });

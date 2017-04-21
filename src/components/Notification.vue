@@ -1,7 +1,6 @@
 <template>
     <div id="notification">
-        <md-snackbar ref="snackbar" md-duration="2500" @close="close"
-                     md-position="bottom right">
+        <md-snackbar ref="snackbar" md-duration="2500" @close="close" md-position="bottom right">
             <span id="errorMsg" ref="errorMsg">{{message}}</span>
         </md-snackbar>
     </div>
@@ -20,10 +19,10 @@ export default {
         }
     },
     watch: {
-        'message': function() {
-            if(this.isError) {
+        'message': function () {
+            if (this.isError) {
                 this.$refs.snackbar.open();
-            } else 
+            } else
                 this.$refs.snackbar.close();
         }
     }

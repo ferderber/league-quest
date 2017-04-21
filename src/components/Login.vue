@@ -1,20 +1,15 @@
 <template>
-    <md-whiteframe md-elevation="4"
-                   id="login">
-        <form id="loginForm"
-              method="POST"
-              @submit="login">
+    <md-whiteframe md-elevation="4" id="login">
+        <form id="loginForm" method="POST" @submit="login">
             <md-input-container>
                 <label>Username</label>
                 <md-input name="username"></md-input>
             </md-input-container>
             <md-input-container>
                 <label>Password</label>
-                <md-input name="password"
-                          type="password"></md-input>
+                <md-input name="password" type="password"></md-input>
             </md-input-container>
-            <md-button class="md-primary"
-                       type="submit">Login</md-button>
+            <md-button class="md-primary" type="submit">Login</md-button>
         </form>
     </md-whiteframe>
 </template>

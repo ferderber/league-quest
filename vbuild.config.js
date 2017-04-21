@@ -9,7 +9,7 @@ module.exports = options => ({
     // by default we have autoprefixer pre added
   ],
   env: {
-    API_URL: process.NODE_ENV === 'production' ? '/api' : '//localhost:3000/api'
+    API_URL: process.env.NODE_ENV === 'production' ? '/api' : '//localhost:3000/api'
   },
   webpack (config) {
     config.resolve.modules.push(path.resolve('src'));

@@ -3,29 +3,37 @@ import auth from '../../api/auth';
 
 const state = {
   isLoggedIn: false,
-  pending: true
+  pending: true,
+  token: null,
+  user: null
 };
 
 const getters = {
   isLoggedIn: state => state.isLoggedIn,
-  pending: state => state.pending
+  pending: state => state.pending,
+  user: state => state.user,
+  token: state => state.token
 };
 const actions = {
   login ({ dispatch, commit, state }, credentials) {
     commit(types.LOGIN);
     return auth.login(credentials)
-          .then(() => commit(types.LOGIN_SUCCESS))
+          .then((user) => {
+            localStorage.setItem('token', user.token);
+            commit(types.LOGIN_SUCCESS, user);
+          })
           .catch((err) => {
             commit(types.LOGIN_FAILURE);
             commit(types.SHOW_NOTIFICATION, err);
           });
   },
   logout ({ commit, state }) {
+    localStorage.removeItem('token');
     commit(types.LOGOUT);
   },
   signup ({ dispatch, commit, state }, credentials) {
     return auth.signup(credentials)
-        .then((user) => commit(types.LOGIN_SUCCESS, user))
+        .then((user) => { localStorage.setItem('token', user.token); commit(types.LOGIN_SUCCESS, user); })
         .catch((err) => {
           commit(types.SIGNUP_FAILURE);
           commit(types.SHOW_NOTIFICATION, err);
@@ -37,9 +45,11 @@ const mutations = {
   [types.LOGIN] (state) {
     state.pending = true;
   },
-  [types.LOGIN_SUCCESS] (state) {
+  [types.LOGIN_SUCCESS] (state, user) {
     state.isLoggedIn = true;
     state.pending = false;
+    state.user = user;
+    state.token = user.token;
   },
   [types.LOGOUT] (state) {
     state.isLoggedIn = false;

@@ -7,13 +7,17 @@ const state = {
 
 const getters = {
   activeQuests: state => {
-    return state.quests.filter((q) => q.active);
+    return state.quests.filter((q) => !q.completed);
   },
   questOffers: state => {
-    return state.quests.filter((q) => q.progress === undefined);
+    return state.quests.filter((q) => q.type === 1);
   },
   completedQuests: state => {
-    return state.quests.filter((q) => !q.active);
+    return state.quests.filter((q) => q.completed);
+  },
+  quests: state => {
+    return state.quests.filter((q) => q.progress !== undefined)
+                      .sort((q, q2) => q2.progress / q2.goal - q.progress / q.goal);
   }
 };
 
@@ -23,16 +27,14 @@ const actions = {
       .then((quest) => commit(types.ACCEPT_QUEST, quest))
       .catch((err) => {
         commit(types.API_ERROR, err);
-        return;
       });
   },
   async getQuests ({ commit, state }) {
-    return await Promise.resolve(quests.getQuests()
+    return await quests.getQuests()
       .then((quests) => commit(types.UPDATE_QUESTS, quests))
       .catch((err) => {
         commit(types.API_ERROR, err);
-        return;
-      }));
+      });
   }
 };
 

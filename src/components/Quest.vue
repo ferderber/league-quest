@@ -1,32 +1,28 @@
 <template>
-    <div id="quest"
-         @click="select">
+    <div id="quest" @click="select">
         <span class="check">
-                    <svg v-if="item.isCompleted" fill="#000000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M0 0h24v24H0z" fill="none" />
-                        <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"
-                        />
-                    </svg>
-                </span>
-        <div v-bind:class="{ completed: item.isCompleted}">
+            <svg v-if="item.completed" fill="#000000" height="48" viewBox="0 0 24 24" width="48" xmlns="http://www.w3.org/2000/svg">
+                <path d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/>
+            </svg>
+        </span>
+        <div v-bind:class="{completed: item.complete}">
             <div class="quest-content">
-                <div class="title">{{item.title}}</div>
-                <div class="detail">{{item.detail}}</div>
-                <div v-if="!inProgress"
-                     class="progress">{{item.progress}} / {{item.goal}}</div>
-                <div v-if="!inProgress"
-                     class="progress-bar">
-                    <transition :duration="1000"
-                                :appear="true"
-                                enter-to-class="progress-bar-post"
-                                v-on:enter="enter">
-                        <div></div>
-                    </transition>
+                <div class="quest-title">{{item.title}}</div>
+                <!--<div class="detail">{{item.objectives[0].title}}</div>-->
+                <div v-for="(objective, index) in item.objectives" class="objective">
+                    <span class="detail">{{objective.title}}</span>
+                    <span v-if="!item.completed" class="progress">{{objective.progress}} / {{objective.goal}}</span>
+                    <div v-if="!item.completed" class="progress-bar">
+                        <transition :duration="1000" :appear="true" enter-to-class="progress-bar-post" v-on:enter="enter">
+                            <div></div>
+                        </transition>
+                    </div>
                 </div>
             </div>
+    
         </div>
-        <div class="quest-image"
-             v-bind:style="{ backgroundImage: 'url(' + championImageUrl + ')'}">
+        <div class="quest-image" v-bind:style="{ backgroundImage: 'url(' + championImageUrl + ')'}">
         </div>
     </div>
 </template>
@@ -49,10 +45,19 @@ export default {
     },
     computed: {
         championImageUrl: function () {
-            return 'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + this.item.champion + '_0.jpg';
+            return 'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + this.item.championKey + '_0.jpg';
         },
         progressWidth: function () {
             return Math.floor(this.item.progress / 3) + '%';
+        },
+        progress: function () {
+            let progress = 0;
+            for (var i = 0; i < this.item.objectives.length; i++) {
+                const objective = this.item.objectives[i];
+                progress += objective[i].progress / objective[i].goal;
+            }
+            progress = progress / this.item.objectives.length;
+            return progress;
         }
     },
     created() {
@@ -72,10 +77,11 @@ export default {
     box-shadow: 2px 2px 2px #888888;
     border-radius: 2px;
     font-weight: 600;
+    user-select: none;
 }
 
 .progress-bar {
-    height: 20px;
+    height: 15px;
     background-color: white;
     border-radius: 2px;
 }
@@ -134,13 +140,19 @@ export default {
     background-size: cover;
 }
 
-.title {
-    margin-bottom: 10px;
+.quest-title {
+    display: block;
+    margin-bottom: 30px;
     font-size: 1.2em;
 }
 
 .progress {
-    margin-top: 10px;
+    margin-top: 0px;
+    float: right;
     text-align: right;
+}
+
+.objective {
+    margin-top: 15px;
 }
 </style>
