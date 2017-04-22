@@ -14,7 +14,6 @@ let testState = state;
 global.localStorage = storageMock();
 process.env.API_URL = config.hostname;
 const mockRoutes = nock(config.hostname);
-// const quests = [{ id: 1, active: true, champion: '', goal: 300, progress: 0 }];
 const quests = [{
   'id': 1,
   'title': 'Riven Mastery',
@@ -61,7 +60,7 @@ test('Valid getQuests', async t => {
 });
 test('Valid acceptQuest', async t => {
   mockRoutes.post('/quest/1/accept').reply(200, quests[0]);
-  await testAction(actions.acceptQuest, quests[0].id, {}, [
+  await testAction(actions.acceptQuest, quests[0], {}, [
         { type: types.ACCEPT_QUEST, payload: quests[0] }
   ], null, t);
 });
@@ -74,7 +73,7 @@ test('Offline getQuests', async (t) => {
 });
 test('Offline acceptQuests', async (t) => {
   mockRoutes.post('/quest/1/accept').reply(401);
-  await testAction(actions.acceptQuest, quests[0].id, {}, [
+  await testAction(actions.acceptQuest, quests[0], {}, [
         { type: types.API_ERROR, payload: { status: 401, statusText: 'Unauthorized' }}
   ], null, t);
 });

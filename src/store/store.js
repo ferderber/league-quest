@@ -3,7 +3,6 @@ import Vuex from 'vuex';
 import auth from './modules/auth';
 import quests from './modules/quests';
 import router from './modules/router';
-
 import notification from './modules/notification';
 
 Vue.use(Vuex);

@@ -1,10 +1,12 @@
 import * as types from '../mutation-types';
 import auth from '../../api/auth';
 
+const localStorage = localStorage || { getItem: () => false, removeItem: () => null, setItem: () => null }; // If localStorage isn't defined set it (For test purposes)
+
 const state = {
-  isLoggedIn: false,
+  isLoggedIn: !!localStorage.getItem('token'),
   pending: true,
-  token: null,
+  token: localStorage.getItem('token'),
   user: null
 };
 

@@ -1,10 +1,10 @@
 <template>
     <div id="quest-list">
         <div class="available-quests">
-            <quest v-for="(quest, index) in questOffers" v-bind:item="quest" v-on:select="select" :key="index" :in-progress="true"></quest>
+            <quest v-for="(quest, index) in questOffers" v-bind:item="quest" v-on:select="select" :key="index"></quest>
         </div>
         <ul>
-            <quest v-for="(quest,index) in activeQuests" v-bind:item="quest" :key="index" :in-progress="false"></quest>
+            <quest v-for="(quest,index) in activeQuests" v-bind:item="quest" :key="index"></quest>
         </ul>
     </div>
 </template>

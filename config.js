@@ -1,4 +1,3 @@
-
 const config = {
   dev: {
     hostname: 'http://localhost:3000/api'

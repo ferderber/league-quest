@@ -7,6 +7,7 @@
       <router-link to="/quests">Quests</router-link>
       <router-link v-if="!isLoggedIn" to="/login" style="float: right">Login</router-link>
       <router-link v-if="!isLoggedIn" to="/signup" style="float: right">Sign up</router-link>
+      <span v-if="isLoggedIn" style="float: right">Welcome, {{user.username}} <img src="{{getProfileImage}}"/></span>
       <a v-if="isLoggedIn" href="#" @click="logout" style="float: right">Logout</a>
     </md-whiteframe>
     <notification>
@@ -21,7 +22,10 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'app',
   computed: {
-    ...mapGetters(['isLoggedIn'])
+    ...mapGetters(['isLoggedIn', 'user'])
+    getProfileImage: () => {
+      return `//ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/${this.user.profileIconId}.png`;
+    }
   },
   methods: {
     logout() {

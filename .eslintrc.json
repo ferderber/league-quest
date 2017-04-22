@@ -10,7 +10,8 @@
     "globals": {
         "fetch": true,
         "document": true,
-        "window": true
+        "window": true,
+        "localStorage": true
     },
     "extends": "vue",
     "rules": {

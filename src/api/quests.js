@@ -1,8 +1,6 @@
-import config from '../../config';
-
 export default {
   acceptQuest: (quest) =>
-    fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/quest/' + quest + '/accept', {
+    fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/quest/' + quest.id + '/accept', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')

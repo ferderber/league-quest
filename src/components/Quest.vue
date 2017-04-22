@@ -45,7 +45,7 @@ export default {
     },
     computed: {
         championImageUrl: function () {
-            return 'http://ddragon.leagueoflegends.com/cdn/img/champion/splash/' + this.item.championKey + '_0.jpg';
+            return '//ddragon.leagueoflegends.com/cdn/img/champion/splash/' + this.item.championKey + '_0.jpg';
         },
         progressWidth: function () {
             return Math.floor(this.item.progress / 3) + '%';
