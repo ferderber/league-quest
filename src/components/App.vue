@@ -5,10 +5,10 @@
       <span class="title">LeagueQuest</span>
       <span>|</span>
       <router-link to="/quests">Quests</router-link>
-      <router-link v-if="!isLoggedIn" to="/login" style="float: right">Login</router-link>
-      <router-link v-if="!isLoggedIn" to="/signup" style="float: right">Sign up</router-link>
-      <span v-if="isLoggedIn" style="float: right">Welcome, {{user.username}} <img src="{{getProfileImage}}"/></span>
-      <a v-if="isLoggedIn" href="#" @click="logout" style="float: right">Logout</a>
+      <router-link v-if="!user" to="/login" style="float: right">Login</router-link>
+      <router-link v-if="!user" to="/signup" style="float: right">Sign up</router-link>
+      <a v-if="user" href="#" @click="logout" style="float: right">Logout</a>
+      <span v-if="user" style="float: right">Welcome, {{ user.summonerName }} <img width="32px" height="32px" :src="getProfileImage"/></span>
     </md-whiteframe>
     <notification>
     </notification>
@@ -22,8 +22,8 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'app',
   computed: {
-    ...mapGetters(['isLoggedIn', 'user'])
-    getProfileImage: () => {
+    ...mapGetters(['isLoggedIn', 'user']), 
+    getProfileImage: function() {
       return `//ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/${this.user.profileIconId}.png`;
     }
   },
@@ -34,6 +34,10 @@ export default {
   },
   components: {
     'notification': () => import('./Notification.vue')
+  },
+  
+  mounted: function() {
+    this.$store.dispatch('getUser');
   }
 }
 </script>

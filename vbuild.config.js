@@ -1,13 +1,9 @@
 const path = require('path');
 const OfflinePlugin = require('offline-plugin');
 
-// this will copy ./static/** to ./dist/**
 module.exports = options => ({
   entry: 'src/index.js',
-  postcss: [
-    // add more postcss plugins here
-    // by default we have autoprefixer pre added
-  ],
+  postcss: [],
   env: {
     API_URL: process.env.NODE_ENV === 'production' ? '/api' : '//localhost:3000/api'
   },

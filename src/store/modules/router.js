@@ -15,6 +15,9 @@ const mutations = {
   },
   [types.LOGOUT] (state) {
     router.go('/');
+  },
+  [types.REDIRECT_LOGIN] (state) {
+    router.push('/login');
   }
 };
 export default {

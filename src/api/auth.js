@@ -23,5 +23,17 @@ export default {
       }
       return res;
     }).then(res => res.json());
-  }
+  },
+  getUser: () =>
+    fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/user', {
+      method: 'get',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      }
+    }).then(res => {
+      if (res.status !== 200) {
+        return res.json().then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
+      }
+      return res;
+    }).then(res => res.json())
 };

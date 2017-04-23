@@ -5,19 +5,23 @@ const state = {
   quests: []
 };
 
+function objectiveComparator (acc, obj) {
+  acc += obj.progress / obj.goal;
+}
+
 const getters = {
   activeQuests: state => {
-    return state.quests.filter((q) => !q.completed);
+    return state.quests.filter((q) => q.active);
   },
   questOffers: state => {
-    return state.quests.filter((q) => q.type === 1);
+    return state.quests.filter((q) => !q.active);
   },
   completedQuests: state => {
     return state.quests.filter((q) => q.completed);
   },
   quests: state => {
-    return state.quests.filter((q) => q.progress !== undefined)
-                      .sort((q, q2) => q2.progress / q2.goal - q.progress / q.goal);
+    return state.quests.concat()
+      .sort((q, q2) => (q2.objectives.reduce(objectiveComparator) / q2.objectives.length) - (q.objectives.reduce(objectiveComparator) / q.objectives.length));
   }
 };
 

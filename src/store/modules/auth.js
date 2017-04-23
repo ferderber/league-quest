@@ -1,12 +1,12 @@
 import * as types from '../mutation-types';
 import auth from '../../api/auth';
 
-const localStorage = localStorage || { getItem: () => false, removeItem: () => null, setItem: () => null }; // If localStorage isn't defined set it (For test purposes)
+// const localStorage = localStorage || { getItem: () => false, removeItem: () => null, setItem: () => null }; // If localStorage isn't defined set it (For test purposes)
 
 const state = {
-  isLoggedIn: !!localStorage.getItem('token'),
+  isLoggedIn: !!window.localStorage.getItem('token'),
   pending: true,
-  token: localStorage.getItem('token'),
+  token: window.localStorage.getItem('token'),
   user: null
 };
 
@@ -17,25 +17,39 @@ const getters = {
   token: state => state.token
 };
 const actions = {
-  login ({ dispatch, commit, state }, credentials) {
+  login ({ commit, state }, credentials) {
     commit(types.LOGIN);
     return auth.login(credentials)
-          .then((user) => {
-            localStorage.setItem('token', user.token);
-            commit(types.LOGIN_SUCCESS, user);
+          .then((res) => {
+            window.localStorage.setItem('token', res.token);
+            commit(types.LOGIN_SUCCESS, res);
           })
           .catch((err) => {
             commit(types.LOGIN_FAILURE);
             commit(types.SHOW_NOTIFICATION, err);
           });
   },
+  getUser ({ commit, state }) {
+    if (localStorage.getItem('token')) {
+      return auth.getUser()
+      .then((res) => {
+        commit(types.UPDATE_USER, res);
+      })
+      .catch((err) => {
+        commit(types.SHOW_NOTIFICATION, err);
+      });
+    } else {
+      commit(types.REDIRECT_LOGIN);
+    }
+  },
   logout ({ commit, state }) {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
     commit(types.LOGOUT);
   },
   signup ({ dispatch, commit, state }, credentials) {
     return auth.signup(credentials)
-        .then((user) => { localStorage.setItem('token', user.token); commit(types.LOGIN_SUCCESS, user); })
+        .then((res) => { localStorage.setItem('token', res.token); commit(types.LOGIN_SUCCESS, res); })
         .catch((err) => {
           commit(types.SIGNUP_FAILURE);
           commit(types.SHOW_NOTIFICATION, err);
@@ -47,15 +61,20 @@ const mutations = {
   [types.LOGIN] (state) {
     state.pending = true;
   },
-  [types.LOGIN_SUCCESS] (state, user) {
+  [types.LOGIN_SUCCESS] (state, res) {
     state.isLoggedIn = true;
     state.pending = false;
+    state.user = res.user;
+    state.token = res.token;
+  },
+  [types.UPDATE_USER] (state, user) {
     state.user = user;
-    state.token = user.token;
   },
   [types.LOGOUT] (state) {
     state.isLoggedIn = false;
     state.pending = false;
+    state.user = null;
+    state.token = null;
   },
   [types.LOGIN_FAILURE] (state) {
     state.isLoggedIn = false;

@@ -15,7 +15,6 @@ Vue.use(VueMaterial);
 new Vue({
   router,
   store,
-  // sync,
   render: (h) => h(App)
 }).$mount('#app');
 

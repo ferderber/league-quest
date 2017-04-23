@@ -6,8 +6,8 @@
                 <md-input name="username"></md-input>
             </md-input-container>
             <md-input-container>
-                <label>League Username</label>
-                <md-input name="leaguename"></md-input>
+                <label>Summoner Name</label>
+                <md-input name="summonerName"></md-input>
             </md-input-container>
             <md-input-container>
                 <label>Email</label>
@@ -31,7 +31,7 @@ export default {
             this.$store.dispatch('signup',
                 {
                     username: form.get('username'),
-                    leaguename: form.get('leaguename'),
+                    summonerName: form.get('summonerName'),
                     email: form.get('email'),
                     password: form.get('password')
                 });
