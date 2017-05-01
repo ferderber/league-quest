@@ -34,7 +34,18 @@ const actions = {
       });
   },
   async getQuests ({ commit, state }) {
-    return await quests.getQuests()
+    if (localStorage.getItem('token')) {
+      return await quests.getQuests()
+      .then((quests) => commit(types.UPDATE_QUESTS, quests))
+      .catch((err) => {
+        commit(types.API_ERROR, err);
+      });
+    } else {
+      commit(types.REDIRECT_LOGIN);
+    }
+  },
+  async updateQuests ({ commit, state }) {
+    return await quests.updateQuests()
       .then((quests) => commit(types.UPDATE_QUESTS, quests))
       .catch((err) => {
         commit(types.API_ERROR, err);

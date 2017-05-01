@@ -9,18 +9,14 @@
         <div v-bind:class="{completed: item.completed}">
             <div class="quest-content">
                 <div class="quest-title">{{item.title}}</div>
-                <!--<div class="detail">{{item.objectives[0].title}}</div>-->
                 <div v-for="(objective, index) in item.objectives" class="objective">
                     <span class="detail">{{objective.title}}</span>
                     <span v-if="!item.completed" class="progress">{{objective.progress}} / {{objective.goal}}</span>
                     <div v-if="!item.completed" class="progress-bar">
-                        <transition :duration="1000" :appear="true" enter-to-class="progress-bar-post" v-on:enter="enter">
-                            <div></div>
-                        </transition>
+                        <span class="progress-fill" :style="{width: (objective.progress / objective.goal) * 100 + '%'}">&nbsp;</span>
                     </div>
                 </div>
             </div>
-    
         </div>
         <div class="quest-image" v-bind:style="{ backgroundImage: 'url(' + championImageUrl + ')'}">
         </div>
@@ -80,17 +76,28 @@ export default {
     font-weight: 600;
     user-select: none;
 }
+.progress-fill {
+    display: block; 
+    height: 100%; 
+    animation: expandWidth 2s infinite; 
+    background-color: #69F0AE;
+}
+
+@keyframes expandWidth {
+   0% { width: 0; }
+}
 
 .progress-bar {
     height: 15px;
+    width: 100%;
     background-color: white;
     border-radius: 2px;
 }
 
-.progress-bar-post {
-    border-radius: 2px;
+.progress-fill {
     background-color: #69F0AE;
-    height: 20px;
+    border-radius: 2px;
+    animation: expandWidth 1s ease 1;
 }
 
 .el-progress {

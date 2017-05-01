@@ -1,14 +1,21 @@
 <template>
   <div id="app">
     <md-whiteframe md-elevation="5" md-tag="nav">
-      <span class="shortTitle">LQ</span>
-      <span class="title">LeagueQuest</span>
-      <span>|</span>
-      <router-link to="/quests">Quests</router-link>
-      <router-link v-if="!user" to="/login" style="float: right">Login</router-link>
-      <router-link v-if="!user" to="/signup" style="float: right">Sign up</router-link>
-      <a v-if="user" href="#" @click="logout" style="float: right">Logout</a>
-      <span v-if="user" style="float: right">Welcome, {{ user.summonerName }} <img width="32px" height="32px" :src="getProfileImage"/></span>
+      <div class="nav-bar">
+        <span class="shortTitle">LQ</span>
+        <span class="title">LeagueQuest</span>
+        <span v-if="user">|</span>
+        <router-link v-if="user" to="/quests">Quests</router-link>
+        <span class="right">
+          <router-link v-if="!user" to="/login" style="float: right">Login</router-link>
+          <router-link v-if="!user" to="/signup" style="float: right">Sign up</router-link>
+          <a v-if="user" href="#" @click="logout" style="float: right">Logout</a>
+          <span v-if="user" class="userPane">
+            <img width="32px" height="32px" :src="getProfileImage"/>
+            <span>{{ user.summonerName }}</span>
+          </span>
+        </span>
+      </div>
     </md-whiteframe>
     <notification>
     </notification>
@@ -22,9 +29,9 @@ import { mapGetters } from 'vuex'
 export default {
   name: 'app',
   computed: {
-    ...mapGetters(['isLoggedIn', 'user']), 
-    getProfileImage: function() {
-      return `//ddragon.leagueoflegends.com/cdn/6.24.1/img/profileicon/${this.user.profileIconId}.png`;
+    ...mapGetters(['isLoggedIn', 'user']),
+    getProfileImage: function () {
+      return `//avatar.leagueoflegends.com/NA/${this.user.summonerName}.png`;
     }
   },
   methods: {
@@ -35,8 +42,8 @@ export default {
   components: {
     'notification': () => import('./Notification.vue')
   },
-  
-  mounted: function() {
+
+  mounted: function () {
     this.$store.dispatch('getUser');
   }
 }
@@ -53,13 +60,28 @@ body,
 }
 
 .page {
+  position: initial;
   width: 98%;
+  min-height: 40%;
   margin: auto;
-  height: 90%;
   padding: 25px;
   padding-bottom: 5px;
-  overflow: auto;
-  overflow-x: hidden;
+}
+
+.userPane {
+  margin: auto;
+  line-height: 32px;
+  margin-top: 16px;
+  border-radius: 3px;
+}
+
+.right {
+  float: right;
+}
+
+.right>* {
+  flex: 1 1 auto;
+  margin-right: 20px;
 }
 
 body {
@@ -74,7 +96,7 @@ body {
 nav {
   width: 100%;
   margin-bottom: 20px;
-  padding: 15px;
+  padding-left: 20px;
   border-bottom: solid 1px #dfdfdf;
 }
 
@@ -83,7 +105,14 @@ nav>* {
   font-size: 1.3em;
   text-decoration: none;
   color: #000;
+  height: 32px;
+  vertical-align: middle;
   margin-right: 20px;
+}
+
+.nav-bar {
+  height: 64px;
+  line-height: 64px;
 }
 
 nav>a:hover {

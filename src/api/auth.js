@@ -11,9 +11,10 @@ export default {
         return res.json().then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
       }
       return res;
-    }).then(res => res.json()),
-  signup: (credentials) => {
-    return fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/user', {
+    }).then(res => res.json()).then((res) => res.json())
+      .catch(() => Promise.reject({ message: 'Server is not responding' })),
+  signup: (credentials) =>
+    fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/user', {
       method: 'post',
       headers: headers,
       body: JSON.stringify(credentials)
@@ -22,8 +23,8 @@ export default {
         return Promise.reject({ status: res.status, statusText: res.statusText, message: res.message });
       }
       return res;
-    }).then(res => res.json());
-  },
+    }).then(res => res.json())
+      .catch(() => Promise.reject({ message: 'Server is not responding' })),
   getUser: () =>
     fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/user', {
       method: 'get',
@@ -36,4 +37,5 @@ export default {
       }
       return res;
     }).then(res => res.json())
+      .catch(() => Promise.reject({ message: 'Server is not responding' }))
 };
