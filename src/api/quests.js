@@ -5,13 +5,13 @@ export default {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
-    }).then((res) => {
+    }).catch(() => Promise.reject({ message: 'Server is not responding' }))
+    .then((res) => {
       if (res.status !== 200) {
         return Promise.reject({ status: res.status, statusText: res.statusText });
       }
       return res;
-    }).then((res) => res.json())
-      .catch(() => Promise.reject({ message: 'Server is not responding' })),
+    }).then((res) => res.json()),
 
   getQuests: () =>
     fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/quest', {
@@ -19,20 +19,21 @@ export default {
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
-    }).then((res) => {
+    }).catch(() => Promise.reject({ message: 'Server is not responding' }))
+    .then((res) => {
       if (res.status !== 200) {
         return Promise.reject({ status: res.status, statusText: res.statusText });
       }
       return res;
-    }).then((res) => res.json())
-      .catch(() => Promise.reject({ message: 'Server is not responding' })),
+    }).then((res) => res.json()),
   updateQuests: () =>
     fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/quest/update', {
       method: 'POST',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
-    }).then((res) => {
+    }).catch(() => Promise.reject({ message: 'Server is not responding' }))
+    .then((res) => {
       if (res) {
         if (res.status !== 200) {
           return Promise.reject({ status: res.status, statusText: res.statusText });
@@ -40,5 +41,4 @@ export default {
         return res;
       }
     }).then((res) => res.json())
-      .catch(() => Promise.reject({ message: 'Server is not responding' }))
 };

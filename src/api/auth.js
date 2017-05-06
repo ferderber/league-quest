@@ -6,36 +6,39 @@ export default {
       method: 'post',
       headers: headers,
       body: JSON.stringify(credentials)
-    }).then(res => {
+    }).catch(() => Promise.reject({ message: 'Server is not responding' }))
+    .then(res => {
       if (res.status !== 200) {
-        return res.json().then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
+        return res.json()
+          .then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
       }
       return res;
-    }).then(res => res.json()).then((res) => res.json())
-      .catch(() => Promise.reject({ message: 'Server is not responding' })),
+    }).then(res => res.json()),
   signup: (credentials) =>
     fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/user', {
       method: 'post',
       headers: headers,
       body: JSON.stringify(credentials)
-    }).then(res => {
+    }).catch(() => Promise.reject({ message: 'Server is not responding' }))
+    .then(res => {
       if (res.status !== 200) {
-        return Promise.reject({ status: res.status, statusText: res.statusText, message: res.message });
+        return res.json()
+          .then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
       }
       return res;
-    }).then(res => res.json())
-      .catch(() => Promise.reject({ message: 'Server is not responding' })),
+    }).then(res => res.json()),
   getUser: () =>
     fetch((process.env.API_URL ? process.env.API_URL : '/api') + '/user', {
       method: 'get',
       headers: {
         'Authorization': 'Bearer ' + localStorage.getItem('token')
       }
-    }).then(res => {
+    }).catch(() => Promise.reject({ message: 'Server is not responding' }))
+    .then(res => {
       if (res.status !== 200) {
-        return res.json().then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
+        return res.json()
+          .then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
       }
       return res;
     }).then(res => res.json())
-      .catch(() => Promise.reject({ message: 'Server is not responding' }))
 };
