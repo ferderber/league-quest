@@ -44,11 +44,9 @@ export default {
     name: 'leaderboard',
     methods: {
       onPagination: function(data) {
-        console.log(this.length);
         this.$store.dispatch('page', data);
       },
       onSort: function(data) {
-        console.log(data);
         this.$store.dispatch('sort', data);
       }
     },
