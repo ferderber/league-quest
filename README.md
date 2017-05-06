@@ -15,7 +15,7 @@ It tracks users as they progress through *quests* and allows them to compete wit
 ### Requirements
 - `Node > 7`
 - yarn/npm
-- vbuild, `yarn global add vbuild`
+- poi, `yarn global add poi`
 
 ### Folder structure
 - `src/`: App files
@@ -23,7 +23,7 @@ It tracks users as they progress through *quests* and allows them to compete wit
   - `store/`: Vuex stores directory
     - `modules/`: Vuex stores seperated into modules
   - `index.js`: App entry file
-- `vbuild.config.js`: Config file for vbuild
+- `poi.config.js`: Config file for poi
 - `package.json`: App manifest
 - `.gitignore`: Ignore git files
 

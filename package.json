@@ -9,9 +9,9 @@
   },
   "scripts": {
     "test": "nyc ava",
-    "lint": "vbuild --eslint",
-    "dev": "vbuild -d",
-    "build": "vbuild"
+    "lint": "poi --eslint",
+    "dev": "poi",
+    "build": "poi build"
   },
   "ava": {
     "require": [
@@ -38,12 +38,11 @@
     "isomorphic-fetch": "^2.2.1",
     "nock": "^9.0.13",
     "nyc": "^10.2.0",
-    "offline-plugin": "^4.7.0",
     "vbuild": "^7.1.0"
   },
   "license": "MIT",
   "dependencies": {
-    "vue-material": "^0.7.1",
+    "vue-material": "https://github.com/marcosmoura/vue-material",
     "vue-resource": "^1.3.1",
     "vue-router": "^2.4.0",
     "vuex": "^2.3.1",
