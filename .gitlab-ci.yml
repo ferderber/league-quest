@@ -1,7 +1,6 @@
 image: node:7.8.0
 
 stages:
-  - test
   - build
 
 before_script:
@@ -11,10 +10,6 @@ before_script:
 cache:
   paths:
     - node_modules/
-test:
-  stage: test
-  script:
-    - yarn test
 
 build:
   stage: build
