@@ -1,12 +1,9 @@
 import test from 'ava';
-import { testAction, storageMock } from './_helpers';
+import { testAction } from './_helpers';
 import * as types from '../../src/store/mutation-types';
 import authStore from '../../src/store/modules/auth';
 import nock from 'nock';
 import config from '../../config';
-global.localStorage = storageMock();
-
-require('isomorphic-fetch');
 
 process.env.API_URL = config.hostname;
 const mockRoutes = nock(config.hostname);
@@ -18,7 +15,6 @@ let testState = authStore.state;
 
 // action tests
 test('Valid login', async t => {
-  global.localStorage = storageMock();
   mockRoutes.post('/user/authenticate', { username: 'user', password: 'password' }).reply(200, { status: 'ok', token: 'abc' });
   await testAction(actions.login, { username: 'user', password: 'password' }, {}, [
         { type: types.LOGIN },

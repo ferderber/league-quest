@@ -15,7 +15,8 @@
   },
   "ava": {
     "require": [
-      "babel-register"
+      "babel-register",
+      "./test/_browser-helper.js"
     ]
   },
   "babel": {
@@ -30,6 +31,7 @@
     "babel-eslint": "^7.2.2",
     "babel-preset-vue-app": "^1.2.0",
     "babel-register": "^6.24.1",
+    "browser-env": "^2.0.31",
     "eslint": "^3.19.0",
     "eslint-config-vue": "^2.0.2",
     "eslint-plugin-vue": "^2.0.1",

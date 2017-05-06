@@ -3,15 +3,13 @@ import * as types from '../../src/store/mutation-types';
 import store from '../../src/store/modules/quests';
 import nock from 'nock';
 import config from '../../config';
-import { testAction, storageMock } from './_helpers';
-require('isomorphic-fetch');
+import { testAction } from './_helpers';
 
 const actions = store.actions;
 const mutations = store.mutations;
 const getters = store.getters;
 const state = store.state;
 let testState = state;
-global.localStorage = storageMock();
 process.env.API_URL = config.hostname;
 const mockRoutes = nock(config.hostname);
 const quests = [{
