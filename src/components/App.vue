@@ -6,6 +6,7 @@
         <span class="title">LeagueQuest</span>
         <span v-if="user">|</span>
         <router-link v-if="user" to="/quests">Quests</router-link>
+        <router-link v-if="user" to="/leaderboard">Leaderboard</router-link>
         <span class="right">
           <router-link v-if="!user" to="/login" style="float: right">Login</router-link>
           <router-link v-if="!user" to="/signup" style="float: right">Sign up</router-link>

@@ -3,6 +3,7 @@ import Vuex from 'vuex';
 import auth from './modules/auth';
 import quests from './modules/quests';
 import router from './modules/router';
+import leaderboard from './modules/leaderboard';
 import notification from './modules/notification';
 
 Vue.use(Vuex);
@@ -14,6 +15,7 @@ export default new Vuex.Store({
     auth,
     router,
     notification,
+    leaderboard,
     quests
   },
   strict: debug
