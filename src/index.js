@@ -1,6 +1,5 @@
 import Vue from 'vue';
 import App from 'components/App';
-import VueResource from 'vue-resource';
 import VueMaterial from 'vue-material';
 import { sync } from 'vuex-router-sync';
 import store from './store/store.js';
@@ -9,7 +8,6 @@ require('vue-material/dist/vue-material.css');
 
 sync(store, router);
 
-Vue.use(VueResource);
 Vue.use(VueMaterial);
 
 new Vue({
@@ -17,7 +15,3 @@ new Vue({
   store,
   render: (h) => h(App)
 }).$mount('#app');
-
-if (process.env.NODE_ENV === 'production') {
-  require('./pwa');
-}
