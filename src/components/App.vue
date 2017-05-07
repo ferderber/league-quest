@@ -1,23 +1,61 @@
 <template>
   <div id="app">
-    <md-whiteframe md-elevation="5" md-tag="nav">
-      <div class="nav-bar">
-        <span class="shortTitle">LQ</span>
-        <span class="title">LeagueQuest</span>
-        <span v-if="user">|</span>
-        <router-link v-if="user" to="/quests">Quests</router-link>
-        <router-link v-if="user" to="/leaderboard">Leaderboard</router-link>
-        <span class="right">
-          <router-link v-if="!user" to="/login" style="float: right">Login</router-link>
-          <router-link v-if="!user" to="/signup" style="float: right">Sign up</router-link>
-          <a v-if="user" href="#" @click="logout" style="float: right">Logout</a>
-          <span v-if="user" class="userPane">
-            <img width="32px" height="32px" :src="getProfileImage"/>
-            <span>{{ user.summonerName }}</span>
-          </span>
-        </span>
-      </div>
-    </md-whiteframe>
+    <md-toolbar>
+      <md-button class="md-icon-button" @click.native="$refs.sidenav.toggle()">
+        <md-icon>menu</md-icon>
+      </md-button>
+      <h2 class="md-title" style="flex: 1">LeagueQuest</h2>
+    </md-toolbar>
+    <md-sidenav class="md-left" ref="sidenav">
+      <md-toolbar class="md-account-header">
+        <md-list class="user-p" md-theme="blue" v-if="user">
+          <md-list-item class="user-pane">
+            <div>
+              <md-avatar class="md-large">
+                <img :src="getProfileImage" alt="Profile icon" />
+              </md-avatar>
+              <span v-if="user" class="summoner-name">{{user.summonerName}}</span>
+            </div>
+            <md-list-expand>
+              <md-list>
+                <md-list-item @click.native="" class="md-inset">
+                  <md-icon>account_circle</md-icon>
+                  <span>Profile</span>
+                </md-list-item>
+                <md-list-item @click.native="logout" class="md-inset">
+                  <md-icon>exit_to_app</md-icon>
+                  <span>Logout</span>
+                </md-list-item>
+              </md-list>
+            </md-list-expand>
+          </md-list-item>
+        </md-list>
+      </md-toolbar>
+      <md-list v-if="user">
+        <md-list-item @click.native="onNavigate('quests')" class="md-primary">
+          <md-icon>gamepad</md-icon>
+          <span>Quests</span>
+        </md-list-item>
+        <md-list-item @click.native="onNavigate('leaderboard')" ref="leaderboard">
+          <md-icon>people</md-icon>
+          <span>Leaderboard</span>
+        </md-list-item>
+        <md-list-item @click.native="$refs.sidenav.toggle()" name="recent" ref="recent">
+          <md-icon>access_time</md-icon>
+          <span>Recent</span>
+        </md-list-item>
+      </md-list>
+      <md-list v-if="!user">
+        <md-list-item @click.native="onNavigate('login')" class="md-primary">
+          <md-icon></md-icon>
+          <span>Login</span>
+        </md-list-item>
+        <md-list-item @click.native="onNavigate('signup')" class="md-primary">
+          <md-icon></md-icon>
+          <span>Signup</span>
+        </md-list-item>
+      </md-list>
+    </md-sidenav>
     <notification>
     </notification>
     <md-whiteframe class="page" md-elevation="4" md-tag="div">
@@ -38,6 +76,10 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch('logout');
+    },
+    onNavigate(ref) {
+      this.$store.dispatch('route', ref);
+      this.$refs.sidenav.toggle();
     }
   },
   components: {
@@ -60,81 +102,36 @@ body,
   font-family: 'Open Sans', sans-serif;
 }
 
+.md-sidenav .md-list-text-container> :nth-child(2) {
+  color: rgba(#fff, .54);
+}
+
 .page {
   position: initial;
   width: 98%;
   min-height: 40%;
   margin: auto;
   padding: 25px;
-  padding-bottom: 5px;
+  padding-bottom: 30px;
 }
 
-.userPane {
-  margin: auto;
-  line-height: 32px;
-  margin-top: 16px;
-  border-radius: 3px;
+.summoner-name {
+  font-size: 1.5em;
+  margin: 8px;
+  line-height: 1.5em;
 }
 
-.right {
-  float: right;
+.md-account-header {
+  padding-bottom: 30px;
+  min-height: 104px !important;
 }
 
-.right>* {
-  flex: 1 1 auto;
-  margin-right: 20px;
+.user-pane {
+  min-height: 80px;
 }
 
 body {
   background-color: #f9f9f9;
   margin: 0;
-}
-
-* {
-  box-sizing: border-box;
-}
-
-nav {
-  width: 100%;
-  margin-bottom: 20px;
-  padding-left: 20px;
-  border-bottom: solid 1px #dfdfdf;
-}
-
-nav>* {
-  flex: 1 1 auto;
-  font-size: 1.3em;
-  text-decoration: none;
-  color: #000;
-  height: 32px;
-  vertical-align: middle;
-  margin-right: 20px;
-}
-
-.nav-bar {
-  height: 64px;
-  line-height: 64px;
-}
-
-nav>a:hover {
-  color: #9E9E9E;
-}
-
-@media (min-width: 600px) {
-  .shortTitle {
-    display: none;
-  }
-  .title {
-    display: inline;
-  }
-}
-
-@media (max-width: 500px) {
-  .shortTitle {
-    display: inline;
-  }
-  .title {
-    display: none;
-  }
 }
 </style>

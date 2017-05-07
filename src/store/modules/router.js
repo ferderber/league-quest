@@ -7,6 +7,9 @@ const state = {
 const getters = {
 };
 const actions = {
+  route ({ commit, state }, location) {
+    router.push(`/${location}`);
+  }
 };
 
 const mutations = {
