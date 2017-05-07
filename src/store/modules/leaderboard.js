@@ -8,7 +8,7 @@ const state = {
   stats: [],
   filteredStats: [],
   page: 1,
-  size: 5,
+  size: 10,
   sortDirection: 'desc',
   sortProperty: 'points'
 };
