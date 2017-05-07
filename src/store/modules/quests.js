@@ -11,13 +11,13 @@ function objectiveComparator (acc, obj) {
 
 const getters = {
   activeQuests: state => {
-    return state.quests.filter((q) => q.active);
+    return state.quests.filter((q) => q.active && !q.completed);
   },
   questOffers: state => {
     return state.quests.filter((q) => !q.active);
   },
   completedQuests: state => {
-    return state.quests.filter((q) => q.completed);
+    return state.quests.filter((q) => q.completed).sort((q1, q2) => q1.title.localeCompare(q2.title));
   },
   quests: state => {
     return state.quests.concat()

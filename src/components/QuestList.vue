@@ -5,6 +5,7 @@
                 <quest v-for="(quest, index) in questOffers" v-bind:item="quest" v-on:select="select" :key="index"></quest>
             </div>
             <quest v-for="(quest,index) in activeQuests" v-bind:item="quest" :key="index"></quest>
+            <quest v-for="(quest, index) in completedQuests" v-bind:item="quest" :key="index"></quest>
         </div>
         <md-button class="md-fab bot-right" type="button" @click.native="updateQuests">
             <md-icon>autorenew</md-icon>
