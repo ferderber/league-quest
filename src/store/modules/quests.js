@@ -1,6 +1,8 @@
 import * as types from '../mutation-types';
 import quests from '../../api/quests';
 
+types.ADD_QUEST_OFFERS = 'ADD_QUEST_OFFERS';
+
 const state = {
   quests: []
 };
@@ -14,6 +16,7 @@ const getters = {
     return state.quests.filter((q) => q.active && !q.completed);
   },
   questOffers: state => {
+    console.log(state.quests.filter((q) => !q.active));
     return state.quests.filter((q) => !q.active);
   },
   completedQuests: state => {
@@ -26,17 +29,17 @@ const getters = {
 };
 
 const actions = {
-  async acceptQuest ({ commit, state }, quest) {
+  async acceptQuest ({ commit, dispatch, state }, quest) {
     return await quests.acceptQuest(quest)
-      .then((quest) => commit(types.ACCEPT_QUEST, quest))
+      .then((quest) => { commit(types.ACCEPT_QUEST, quest); dispatch('getQuestOffers'); })
       .catch((err) => {
         commit(types.API_ERROR, err);
       });
   },
-  async getQuests ({ commit, state }) {
+  async getQuests ({ commit, dispatch, state }) {
     if (localStorage.getItem('token')) {
       return await quests.getQuests()
-      .then((quests) => commit(types.UPDATE_QUESTS, quests))
+      .then((quests) => { commit(types.UPDATE_QUESTS, quests); })
       .catch((err) => {
         commit(types.API_ERROR, err);
       });
@@ -50,15 +53,26 @@ const actions = {
       .catch((err) => {
         commit(types.API_ERROR, err);
       });
+  },
+  async getQuestOffers ({ commit, state }) {
+    console.log('in here');
+    return await quests.getQuestOffers()
+      .then((questOffers) => commit(types.ADD_QUEST_OFFERS, questOffers))
+      .catch((err) => commit(types.API_ERROR, err));
   }
 };
 
 const mutations = {
   [types.ACCEPT_QUEST] (state, quest) {
+    state.quests = state.quests.filter((q) => q.active);
+    console.log(state.quests);
     state.quests.push(quest);
   },
   [types.UPDATE_QUESTS] (state, quests) {
     state.quests = quests;
+  },
+  [types.ADD_QUEST_OFFERS] (state, quests) {
+    state.quests = state.quests.concat(quests);
   }
 };
 export default {
