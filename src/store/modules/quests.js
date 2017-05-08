@@ -16,7 +16,6 @@ const getters = {
     return state.quests.filter((q) => q.active && !q.completed);
   },
   questOffers: state => {
-    console.log(state.quests.filter((q) => !q.active));
     return state.quests.filter((q) => !q.active);
   },
   completedQuests: state => {
@@ -66,7 +65,6 @@ const actions = {
 const mutations = {
   [types.ACCEPT_QUEST] (state, quest) {
     state.quests = state.quests.filter((q) => q.active);
-    console.log(state.quests);
     state.quests.push(quest);
   },
   [types.UPDATE_QUESTS] (state, quests) {
