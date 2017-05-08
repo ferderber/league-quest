@@ -39,8 +39,9 @@ const actions = {
   async getQuests ({ commit, dispatch, state }) {
     if (localStorage.getItem('token')) {
       return await quests.getQuests()
-      .then((quests) => { commit(types.UPDATE_QUESTS, quests); })
-      .catch((err) => {
+      .then((quests) => {
+        commit(types.UPDATE_QUESTS, quests);
+      }).catch((err) => {
         commit(types.API_ERROR, err);
       });
     } else {

@@ -8,7 +8,7 @@
                 </div>
             </md-whiteframe>
             <md-whiteframe class="active-quests">
-                <h3>Active quests: {{activeQuests.length}}/3</h3>
+                <h3>Active quests: {{activeQuests.length}}/5</h3>
                 <quest v-for="(quest,index) in activeQuests" v-bind:item="quest" :key="quest.id"></quest>
             </md-whiteframe>
             <md-whiteframe class="completed-quests">
