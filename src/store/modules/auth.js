@@ -20,26 +20,39 @@ const actions = {
   login ({ commit, state }, credentials) {
     commit(types.LOGIN);
     return auth.login(credentials)
-          .then((res) => {
-            window.localStorage.setItem('token', res.token);
-            commit(types.LOGIN_SUCCESS, res);
-          })
-          .catch((err) => {
-            commit(types.LOGIN_FAILURE);
-            commit(types.SHOW_NOTIFICATION, err);
-          });
+      .then((res) => {
+        window.localStorage.setItem('token', res.token);
+        commit(types.LOGIN_SUCCESS, res);
+      })
+      .catch((err) => {
+        commit(types.LOGIN_FAILURE);
+        commit(types.SHOW_NOTIFICATION, err);
+      });
   },
   getUser ({ commit, state }) {
     if (localStorage.getItem('token')) {
       return auth.getUser()
-      .then((res) => {
-        commit(types.UPDATE_USER, res);
-      })
-      .catch((err) => {
-        commit(types.SHOW_NOTIFICATION, err);
-      });
+        .then((res) => {
+          commit(types.UPDATE_USER, res);
+        })
+        .catch((err) => {
+          commit(types.SHOW_NOTIFICATION, err);
+        });
     } else {
       commit(types.REDIRECT_LOGIN);
+    }
+  },
+  patchRole ({ commit, state }, value) {
+    if (localStorage.getItem('token')) {
+      const userPatch = {};
+      userPatch[value] = !state.user[value];
+      return auth.patchUser(userPatch)
+        .then((res) => {
+          commit(types.UPDATE_USER, res);
+        })
+        .catch((err) => {
+          commit(types.SHOW_NOTIFICATION, err);
+        });
     }
   },
   logout ({ commit, state }) {
@@ -49,11 +62,11 @@ const actions = {
   },
   signup ({ dispatch, commit, state }, credentials) {
     return auth.signup(credentials)
-        .then((res) => { localStorage.setItem('token', res.token); commit(types.LOGIN_SUCCESS, res); })
-        .catch((err) => {
-          commit(types.SIGNUP_FAILURE);
-          commit(types.SHOW_NOTIFICATION, err);
-        });
+      .then((res) => { localStorage.setItem('token', res.token); commit(types.LOGIN_SUCCESS, res); })
+      .catch((err) => {
+        commit(types.SIGNUP_FAILURE);
+        commit(types.SHOW_NOTIFICATION, err);
+      });
   }
 };
 

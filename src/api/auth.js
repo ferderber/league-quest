@@ -54,5 +54,20 @@ export default {
           .then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
       }
       return res;
+    }).then(res => res.json()),
+  patchUser: (userPatch) =>
+    fetch(`${process.env.API_URL ? process.env.API_URL : '/api'}/user`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': 'Bearer ' + localStorage.getItem('token')
+      },
+      body: JSON.stringify(userPatch)
+    }).catch(() => Promise.reject({ message: 'Server is not responding' }))
+    .then(res => {
+      if (res.status !== 200) {
+        return res.json()
+          .then(json => Promise.reject({ status: res.status, statusText: res.statusText, message: json.message }));
+      }
+      return res;
     }).then(res => res.json())
 };
