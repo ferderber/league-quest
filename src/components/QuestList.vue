@@ -48,7 +48,7 @@ export default {
             }             
         },
         deselectQuests() {
-            var quests = this.$el.querySelectorAll('#quest').forEach((quest) => quest.className = "");
+            var quests = this.$el.querySelectorAll('#quest').forEach((quest) => quest.className =''); 
         },
 
     },
