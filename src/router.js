@@ -4,6 +4,7 @@ import QuestList from './components/QuestList';
 import Login from './components/Login';
 import Signup from './components/Signup';
 import Leaderboard from './components/Leaderboard';
+import Profile from './components/Profile';
 
 Vue.use(VueRouter);
 
@@ -22,6 +23,10 @@ const routes = [{
 {
   path: '/leaderboard',
   component: Leaderboard
+},
+{
+  path: '/profile',
+  component: Profile
 }
 ];
 export default new VueRouter({

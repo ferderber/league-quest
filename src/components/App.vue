@@ -18,7 +18,7 @@
             </div>
             <md-list-expand>
               <md-list>
-                <md-list-item @click.native="" class="md-inset">
+                <md-list-item @click.native="onNavigate('profile')" class="md-inset">
                   <md-icon>account_circle</md-icon>
                   <span>Profile</span>
                 </md-list-item>
