@@ -1,8 +1,6 @@
 import * as types from '../mutation-types';
 import auth from '../../api/auth';
 
-// const localStorage = localStorage || { getItem: () => false, removeItem: () => null, setItem: () => null }; // If localStorage isn't defined set it (For test purposes)
-
 const state = {
   isLoggedIn: !!window.localStorage.getItem('token'),
   pending: true,
@@ -44,8 +42,8 @@ const actions = {
   },
   patchRole ({ commit, state }, value) {
     if (localStorage.getItem('token')) {
-      const userPatch = {};
-      userPatch[value] = !state.user[value];
+      const userPatch = { roles: {}};
+      userPatch.roles[value] = !state.user.roles[value];
       return auth.patchUser(userPatch)
         .then((res) => {
           commit(types.UPDATE_USER, res);
