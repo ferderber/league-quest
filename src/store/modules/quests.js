@@ -1,8 +1,6 @@
 import * as types from '../mutation-types';
 import quests from '../../api/quests';
 
-types.ADD_QUEST_OFFERS = 'ADD_QUEST_OFFERS';
-
 const state = {
   quests: []
 };

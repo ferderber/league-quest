@@ -19,11 +19,6 @@
       "./test/_browser-helper.js"
     ]
   },
-  "babel": {
-    "presets": [
-      "vue-app"
-    ]
-  },
   "devDependencies": {
     "babel-eslint": "^7.2.3",
     "babel-preset-vue-app": "^1.2.0",

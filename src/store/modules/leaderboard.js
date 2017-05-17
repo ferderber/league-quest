@@ -1,9 +1,6 @@
 import * as types from '../mutation-types';
 import auth from '../../api/auth';
 
-types.UPDATE_PAGINATION = 'UPDATE_PAGINATION';
-types.SORT_STATS = 'SORT_STATS';
-
 const state = {
   stats: [],
   filteredStats: [],
