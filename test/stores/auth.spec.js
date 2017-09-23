@@ -17,16 +17,16 @@ let testState = authStore.state;
 test('Valid login', async t => {
   mockRoutes.post('/user/authenticate', { username: 'user', password: 'password' }).reply(200, { status: 'ok', token: 'abc' });
   await testAction(actions.login, { username: 'user', password: 'password' }, {}, [
-        { type: types.LOGIN },
-        { type: types.LOGIN_SUCCESS, payload: { status: 'ok', token: 'abc' }}
+    { type: types.LOGIN },
+    { type: types.LOGIN_SUCCESS, payload: { status: 'ok', token: 'abc' }}
   ], null, t);
 });
 test('Invalid login', async t => {
   mockRoutes.post('/user/authenticate', { username: 'invalid', password: 'credentials' }).reply(401, { message: undefined });
   await testAction(actions.login, { username: 'invalid', password: 'credentials' }, {}, [
-        { type: types.LOGIN },
-        { type: types.LOGIN_FAILURE },
-        { type: types.SHOW_NOTIFICATION, payload: { status: 401, statusText: 'Unauthorized', message: undefined }}
+    { type: types.LOGIN },
+    { type: types.LOGIN_FAILURE },
+    { type: types.SHOW_NOTIFICATION, payload: { status: 401, statusText: 'Unauthorized', message: undefined }}
   ], null, t);
 });
 const mockUser = { username: 'testUser', password: 'password', leagueName: 'league', email: 'test@gmail.com' };

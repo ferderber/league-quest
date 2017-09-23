@@ -20,22 +20,24 @@
     ]
   },
   "devDependencies": {
-    "babel-eslint": "^7.2.3",
+    "@ava/babel-preset-stage-4": "^1.0.0",
+    "ava": "^0.19.1",
+    "babel-eslint": "^7.2.2",
     "babel-preset-vue-app": "^1.2.0",
     "babel-register": "^6.24.1",
     "browser-env": "^2.0.31",
-    "eslint": "^3.19.0",
+    "eslint": "^4.6.1",
     "eslint-config-vue": "^2.0.2",
-    "eslint-plugin-vue": "^2.0.1",
+    "eslint-plugin-vue": "^2.1.0",
     "isomorphic-fetch": "^2.2.1",
-    "nock": "^9.0.13",
-    "poi": "^8.0.0-rc.4"
+    "nock": "^9.0.14",
+    "poi": "^9.3.7"
   },
   "license": "MIT",
   "dependencies": {
-    "vue-material": "^0.7.1",
-    "vue-router": "^2.5.3",
-    "vuex": "^2.3.1",
-    "vuex-router-sync": "^4.1.2"
+    "vue-material": "^0.7.4",
+    "vue-router": "^2.7.0",
+    "vuex": "^2.4.0",
+    "vuex-router-sync": "^4.3.1"
   }
 }

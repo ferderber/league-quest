@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import App from 'components/App';
+import App from './components/App';
 import VueMaterial from 'vue-material';
 import { sync } from 'vuex-router-sync';
 import store from './store/store.js';
