@@ -31,6 +31,7 @@
     "eslint-plugin-vue": "^2.1.0",
     "isomorphic-fetch": "^2.2.1",
     "nock": "^9.0.14",
+    "nyc": "^11.2.1",
     "poi": "^9.3.7"
   },
   "license": "MIT",
