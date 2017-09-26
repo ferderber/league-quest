@@ -1,5 +1,5 @@
-import * as types from '../mutation-types';
-import quests from '../../api/quests';
+import * as types from '@/store/mutation-types';
+import * as questApi from '@/api/quests';
 
 const state = {
   quests: []
@@ -27,36 +27,41 @@ const getters = {
 
 const actions = {
   async acceptQuest ({ commit, dispatch, state }, quest) {
-    return await quests.acceptQuest(quest)
-      .then((quest) => { commit(types.ACCEPT_QUEST, quest); dispatch('getQuestOffers'); })
-      .catch((err) => {
-        commit(types.API_ERROR, err);
-      });
+    try {
+      const res = await questApi.acceptQuest(quest);
+      commit(types.ACCEPT_QUEST, res);
+      dispatch('getQuestOffers');
+    } catch (err) {
+      commit(types.API_ERROR, err);
+    }
   },
   async getQuests ({ commit, dispatch, state }) {
     if (localStorage.getItem('token')) {
-      return await quests.getQuests()
-      .then((quests) => {
+      try {
+        const quests = await questApi.getQuests();
         commit(types.UPDATE_QUESTS, quests);
-      }).catch((err) => {
+      } catch (err) {
         commit(types.API_ERROR, err);
-      });
+      }
     } else {
       commit(types.REDIRECT_LOGIN);
     }
   },
   async updateQuests ({ commit, state }) {
-    return await quests.updateQuests()
-      .then((quests) => commit(types.UPDATE_QUESTS, quests))
-      .catch((err) => {
-        commit(types.API_ERROR, err);
-      });
+    try {
+      const quests = await questApi.updateQuests();
+      commit(types.UPDATE_QUESTS, quests);
+    } catch (err) {
+      commit(types.API_ERROR, err);
+    }
   },
   async getQuestOffers ({ commit, state }) {
-    console.log('in here');
-    return await quests.getQuestOffers()
-      .then((questOffers) => commit(types.ADD_QUEST_OFFERS, questOffers))
-      .catch((err) => commit(types.API_ERROR, err));
+    try {
+      const questOffers = await questApi.getQuestOffers();
+      commit(types.ADD_QUEST_OFFERS, questOffers);
+    } catch (err) {
+      commit(types.API_ERROR, err);
+    }
   }
 };
 

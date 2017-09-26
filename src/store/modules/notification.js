@@ -1,4 +1,4 @@
-import * as types from '../mutation-types';
+import * as types from '@/store/mutation-types';
 
 const state = {
   message: null
@@ -16,13 +16,13 @@ const actions = {
 
 const mutations = {
   [types.SHOW_NOTIFICATION] (state, err) {
-    state.message = err.message || err.statusText;
+    state.message = err.message || err;
   },
   [types.HIDE_NOTIFICATION] (state, err) {
     state.message = null;
   },
   [types.API_ERROR] (state, err) {
-    state.message = err.statusText;
+    state.message = err.message || err;
   }
 };
 export default {

@@ -1,5 +1,5 @@
-import * as types from '../mutation-types';
-import auth from '../../api/auth';
+import * as types from '@/store/mutation-types';
+import * as authApi from '@/api/auth';
 
 const state = {
   stats: [],
@@ -19,12 +19,14 @@ const getters = {
   sortDirection: state => state.sortDirection
 };
 const actions = {
-  getStats ({ commit, state }) {
+  async getStats ({ commit, state }) {
     if (localStorage.getItem('token')) {
-      return auth.getStats()
-      .then((res) => {
+      try {
+        const res = await authApi.getStats();
         commit(types.UPDATE_STATS, res);
-      }).catch(err => commit(types.SHOW_NOTIFICATION, err));
+      } catch (err) {
+        commit(types.SHOW_NOTIFICATION, err);
+      }
     } else { commit(types.REDIRECT_LOGIN); }
   },
   page ({ commit, state }, data) {

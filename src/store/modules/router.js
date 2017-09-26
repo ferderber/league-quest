@@ -1,5 +1,5 @@
-import * as types from '../mutation-types';
-import router from '../../router';
+import * as types from '@/store/mutation-types';
+import router from '@/router';
 
 const state = {
 };
