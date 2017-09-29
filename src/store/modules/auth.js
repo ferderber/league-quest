@@ -64,6 +64,14 @@ const actions = {
       commit(types.SIGNUP_FAILURE);
       commit(types.SHOW_NOTIFICATION, err);
     }
+  },
+  async verify ({ commit, state }) {
+    try {
+      const verifiedUser = await authApi.verify();
+      commit(types.UPDATE_USER, verifiedUser);
+    } catch (err) {
+      commit(types.SHOW_NOTIFICATION, err);
+    }
   }
 };
 

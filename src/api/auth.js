@@ -33,3 +33,9 @@ export async function patchUser (userPatch) {
     body: JSON.stringify(userPatch)
   }).catch(() => Promise.reject({ message: 'Server is not responding' })).then(handleResponse);
 }
+export async function verify () {
+  return fetch(`${process.env.API_URL ? process.env.API_URL : '/api'}/user/verify`, {
+    method: 'PATCH',
+    headers: getHeaders()
+  }).catch(() => Promise.reject({ message: 'Server is not responding' })).then(handleResponse);
+}
