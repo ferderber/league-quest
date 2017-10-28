@@ -1,7 +1,5 @@
-import * as types from '../mutation-types';
-import auth from '../../api/auth';
-
-// const localStorage = localStorage || { getItem: () => false, removeItem: () => null, setItem: () => null }; // If localStorage isn't defined set it (For test purposes)
+import * as types from '@/store/mutation-types';
+import * as authApi from '@/api/auth';
 
 const state = {
   isLoggedIn: !!window.localStorage.getItem('token'),
@@ -17,29 +15,39 @@ const getters = {
   token: state => state.token
 };
 const actions = {
-  login ({ commit, state }, credentials) {
+  async login ({ commit, state }, credentials) {
     commit(types.LOGIN);
-    return auth.login(credentials)
-          .then((res) => {
-            window.localStorage.setItem('token', res.token);
-            commit(types.LOGIN_SUCCESS, res);
-          })
-          .catch((err) => {
-            commit(types.LOGIN_FAILURE);
-            commit(types.SHOW_NOTIFICATION, err);
-          });
+    try {
+      const res = await authApi.login(credentials);
+      window.localStorage.setItem('token', res.token);
+      commit(types.LOGIN_SUCCESS, res);
+    } catch (err) {
+      commit(types.LOGIN_FAILURE);
+      commit(types.SHOW_NOTIFICATION, err);
+    }
   },
-  getUser ({ commit, state }) {
+  async getUser ({ commit, state }) {
     if (localStorage.getItem('token')) {
-      return auth.getUser()
-      .then((res) => {
+      try {
+        const res = await authApi.getUser();
         commit(types.UPDATE_USER, res);
-      })
-      .catch((err) => {
+      } catch (err) {
         commit(types.SHOW_NOTIFICATION, err);
-      });
+      }
     } else {
       commit(types.REDIRECT_LOGIN);
+    }
+  },
+  async patchRole ({ commit, state }, value) {
+    if (localStorage.getItem('token')) {
+      const userPatch = { roles: {}};
+      userPatch.roles[value] = !state.user.roles[value];
+      try {
+        const res = await authApi.patchUser(userPatch);
+        commit(types.UPDATE_USER, res);
+      } catch (err) {
+        commit(types.SHOW_NOTIFICATION, err);
+      }
     }
   },
   logout ({ commit, state }) {
@@ -47,13 +55,23 @@ const actions = {
     localStorage.removeItem('user');
     commit(types.LOGOUT);
   },
-  signup ({ dispatch, commit, state }, credentials) {
-    return auth.signup(credentials)
-        .then((res) => { localStorage.setItem('token', res.token); commit(types.LOGIN_SUCCESS, res); })
-        .catch((err) => {
-          commit(types.SIGNUP_FAILURE);
-          commit(types.SHOW_NOTIFICATION, err);
-        });
+  async signup ({ dispatch, commit, state }, credentials) {
+    try {
+      const res = await authApi.signup(credentials);
+      localStorage.setItem('token', res.token);
+      commit(types.LOGIN_SUCCESS, res);
+    } catch (err) {
+      commit(types.SIGNUP_FAILURE);
+      commit(types.SHOW_NOTIFICATION, err);
+    }
+  },
+  async verify ({ commit, state }) {
+    try {
+      const verifiedUser = await authApi.verify();
+      commit(types.UPDATE_USER, verifiedUser);
+    } catch (err) {
+      commit(types.SHOW_NOTIFICATION, err);
+    }
   }
 };
 

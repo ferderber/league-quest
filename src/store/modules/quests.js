@@ -1,5 +1,5 @@
-import * as types from '../mutation-types';
-import quests from '../../api/quests';
+import * as types from '@/store/mutation-types';
+import * as questApi from '@/api/quests';
 
 const state = {
   quests: []
@@ -26,39 +26,55 @@ const getters = {
 };
 
 const actions = {
-  async acceptQuest ({ commit, state }, quest) {
-    return await quests.acceptQuest(quest)
-      .then((quest) => commit(types.ACCEPT_QUEST, quest))
-      .catch((err) => {
-        commit(types.API_ERROR, err);
-      });
+  async acceptQuest ({ commit, dispatch, state }, quest) {
+    try {
+      const res = await questApi.acceptQuest(quest);
+      commit(types.ACCEPT_QUEST, res);
+      dispatch('getQuestOffers');
+    } catch (err) {
+      commit(types.API_ERROR, err);
+    }
   },
-  async getQuests ({ commit, state }) {
+  async getQuests ({ commit, dispatch, state }) {
     if (localStorage.getItem('token')) {
-      return await quests.getQuests()
-      .then((quests) => commit(types.UPDATE_QUESTS, quests))
-      .catch((err) => {
+      try {
+        const quests = await questApi.getQuests();
+        commit(types.UPDATE_QUESTS, quests);
+      } catch (err) {
         commit(types.API_ERROR, err);
-      });
+      }
     } else {
       commit(types.REDIRECT_LOGIN);
     }
   },
   async updateQuests ({ commit, state }) {
-    return await quests.updateQuests()
-      .then((quests) => commit(types.UPDATE_QUESTS, quests))
-      .catch((err) => {
-        commit(types.API_ERROR, err);
-      });
+    try {
+      const quests = await questApi.updateQuests();
+      commit(types.UPDATE_QUESTS, quests);
+    } catch (err) {
+      commit(types.API_ERROR, err);
+    }
+  },
+  async getQuestOffers ({ commit, state }) {
+    try {
+      const questOffers = await questApi.getQuestOffers();
+      commit(types.ADD_QUEST_OFFERS, questOffers);
+    } catch (err) {
+      commit(types.API_ERROR, err);
+    }
   }
 };
 
 const mutations = {
   [types.ACCEPT_QUEST] (state, quest) {
+    state.quests = state.quests.filter((q) => q.active);
     state.quests.push(quest);
   },
   [types.UPDATE_QUESTS] (state, quests) {
     state.quests = quests;
+  },
+  [types.ADD_QUEST_OFFERS] (state, quests) {
+    state.quests = state.quests.concat(quests);
   }
 };
 export default {

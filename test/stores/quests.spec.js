@@ -53,26 +53,26 @@ const quests = [{
 test('Valid getQuests', async t => {
   mockRoutes.get('/quest').reply(200, quests);
   await testAction(actions.getQuests, null, {}, [
-        { type: types.UPDATE_QUESTS, payload: quests }
+    { type: types.UPDATE_QUESTS, payload: quests }
   ], null, t);
 });
 test('Valid acceptQuest', async t => {
   mockRoutes.post('/quest/1/accept').reply(200, quests[0]);
   await testAction(actions.acceptQuest, quests[0], {}, [
-        { type: types.ACCEPT_QUEST, payload: quests[0] }
+    { type: types.ACCEPT_QUEST, payload: quests[0] }
   ], null, t);
 });
 
 test('Offline getQuests', async (t) => {
   mockRoutes.get('/quest').reply(401);
   await testAction(actions.getQuests, null, {}, [
-        { type: types.API_ERROR, payload: { status: 401, statusText: 'Unauthorized' }}
+    { type: types.API_ERROR, payload: { status: 401, statusText: 'Unauthorized' }}
   ], null, t);
 });
 test('Offline acceptQuests', async (t) => {
   mockRoutes.post('/quest/1/accept').reply(401);
   await testAction(actions.acceptQuest, quests[0], {}, [
-        { type: types.API_ERROR, payload: { status: 401, statusText: 'Unauthorized' }}
+    { type: types.API_ERROR, payload: { status: 401, statusText: 'Unauthorized' }}
   ], null, t);
 });
 

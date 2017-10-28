@@ -75,6 +75,10 @@ export default {
     border-radius: 2px;
     font-weight: 600;
     user-select: none;
+    -moz-user-select: none;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    cursor: pointer;
 }
 .progress-fill {
     display: block; 
