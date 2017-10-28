@@ -5,6 +5,7 @@ League Quest is a Vue.js web application for League of Legends.
 It tracks users as they progress through *quests* and allows them to compete with others.
 
 ## Features
+
 - Login
 - Quest progress page
 - Leaderboards *(soon)*
@@ -13,11 +14,13 @@ It tracks users as they progress through *quests* and allows them to compete wit
 - Detailed overall stats page
 
 ### Requirements
+
 - `Node > 7`
 - yarn/npm
 - poi, `yarn global add poi`
 
 ### Folder structure
+
 - `src/`: App files
   - `components/`: Components directory
   - `store/`: Vuex stores directory
@@ -28,6 +31,7 @@ It tracks users as they progress through *quests* and allows them to compete wit
 - `.gitignore`: Ignore git files
 
 ### Development
+
 - `yarn`: Download dependencies
 - `yarn dev`: Run in development mode
 - `yarn build`: Build in production mode
